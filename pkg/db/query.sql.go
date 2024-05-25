@@ -9,6 +9,15 @@ import (
 	"context"
 )
 
+const DeleteAllFeedbacks = `-- name: DeleteAllFeedbacks :exec
+delete from feedback
+`
+
+func (q *Queries) DeleteAllFeedbacks(ctx context.Context) error {
+	_, err := q.db.Exec(ctx, DeleteAllFeedbacks)
+	return err
+}
+
 const GetAllFeedbacks = `-- name: GetAllFeedbacks :many
 select id, message, created_at from feedback
 `

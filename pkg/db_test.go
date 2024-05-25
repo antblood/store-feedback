@@ -1,14 +1,27 @@
 package main
 
 import (
+	"context"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"neeraj.com/store-feedback/pkg/db"
 )
 
 func TestDbConnection(t *testing.T) {
 	// Call the function under test
-	db.CreateConnection()
+	dbc, err := db.CreateConnection()
+	assert.NoError(t, err)
+	dbq := db.New(dbc)
+	objs1, err := dbq.GetAllFeedbacks(context.Background())
+	assert.NoError(t, err)
+	_, err = dbq.InsertFeedback(context.Background(), "Test feedback")
+	assert.NoError(t, err)
+	objs2, err := dbq.GetAllFeedbacks(context.Background())
+	assert.NoError(t, err)
+	assert.Equal(t, 1, len(objs2)-len(objs1))
+	err = dbq.DeleteAllFeedbacks(context.Background())
+	assert.NoError(t, err)
 }
 
 func TestAdd(t *testing.T) {

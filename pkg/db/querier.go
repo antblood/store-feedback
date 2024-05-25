@@ -9,6 +9,7 @@ import (
 )
 
 type Querier interface {
+	DeleteAllFeedbacks(ctx context.Context) error
 	GetAllFeedbacks(ctx context.Context) ([]Feedback, error)
 	InsertFeedback(ctx context.Context, message string) (Feedback, error)
 }
