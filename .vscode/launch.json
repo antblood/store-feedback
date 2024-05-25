@@ -1,0 +1,11 @@
+{
+  "name": "neeraj.com/store-feedback",
+  "version": "1.0.0",
+  "description": "Backend for store feedback",
+  "scripts": {
+    "start": "go run pkg/main.go"
+  },
+  "configurations": [
+
+],
+}

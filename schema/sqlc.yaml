@@ -1,0 +1,33 @@
+version: 2
+sql:
+  - schema: "schema.sql"
+    queries:
+      - "query.sql"
+    engine: "postgresql"
+    gen:
+      go:
+        package: "db"
+        out: "../pkg/db"
+        emit_interface: true
+        emit_enum_valid_method: true
+        emit_all_enum_values: true
+        emit_exported_queries: true
+        sql_package: "pgx/v4"
+        overrides:
+          - db_type: "pg_catalog.numeric"
+            go_type: "float64"
+    database:
+      uri: "${NEERAJ_DATABASE_URL}"
+    rules:
+      - sqlc/db-prepare
+      - no-drop
+      - no-truncate
+rules:
+  - name: no-drop
+    message: "don't use drop statements"
+    rule: |
+      query.sql.matches(r'(?i)\bdrop\b')
+  - name: no-truncate
+    message: "don't use truncate statements"
+    rule: |
+      query.sql.matches(r'(?i)\btruncate\b')
