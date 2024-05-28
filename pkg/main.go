@@ -5,8 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
+	"net"
 	"net/http"
 
+	"google.golang.org/grpc"
 	"neeraj.com/store-feedback/pkg/db"
 )
 
@@ -34,7 +37,15 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", handler)
-	fmt.Println("Server listening on port 6543...")
-	http.ListenAndServe(":6543", nil)
+	// http.HandleFunc("/", handler)
+	// fmt.Println("Server listening on port 6543...")
+	// http.ListenAndServe(":6543", nil)
+
+	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", 6543))
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+	grpcServer := grpc.NewServer()
+	pb.RegisterRouteGuideServer(grpcServer, newServer())
+	grpcServer.Serve(lis)
 }

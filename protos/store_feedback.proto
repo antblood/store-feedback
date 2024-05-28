@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package store_feedback;
+
+option go_package = "pkg/pb";
+
+service StoreFeedback {
+    rpc GetAllFeedbacks(GetAllFeedbacksRequest) returns (GetAllFeedbacksResponse) {}
+}
+
+
+message Feedback {
+    string message = 1;
+}
+
+message GetAllFeedbacksRequest {
+    string test = 1;
+}
+
+message GetAllFeedbacksResponse {
+    string test = 1;
+}
